@@ -1,5 +1,7 @@
 ﻿using ChocolaterieDeWilly.Enumerations;
 using ChocolaterieDeWilly.ExceptionsPersonnalisees;
+using System.ComponentModel;
+using System.Linq.Expressions;
 
 namespace ChocolaterieDeWilly.Models
 {
@@ -85,7 +87,25 @@ namespace ChocolaterieDeWilly.Models
         /// <param name="dateLimite">La date avant laquelle le lot doit être fabriqué.</param>
         public void PlanifierLot(string nom, int quantite, Masse poidsUnitaire, DateTime dateLimite)
         {
-
+            if (quantite || poidsUnitaire > 0)
+            {
+                if (dateLimite > DateTime.Today)
+                {
+                    if (ReserveChocolat > quantite)
+                    {
+                        int numero_lot = _prochainNumeroLot;
+                        _prochainNumeroLot++;
+                        LotProduction nouveauLot = new LotProduction(numero_lot, nom, quantite, poidsUnitaire, dateLimite);
+                        
+                    } 
+                }   else
+                    {
+                        throw ReserveInsuffisanteException;
+                    }
+            }else
+             {
+                        
+             }
         }
 
         /// <summary>
@@ -303,6 +323,10 @@ namespace ChocolaterieDeWilly.Models
         /// <param name="lot">Le lot qui vient d'être terminé.</param>
         private void CacherTickets(LotProduction lot)
         {
+            int numeroTicket = lot.Tickets.Count + 1;
+            TicketOr ticket = new TicketOr(lot.Numero);
+            lot.AjouterTicket(ticket);
+            _compteurUnites += lot.QuantiteInvendue;
         }
     }
 }
