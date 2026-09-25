@@ -85,8 +85,8 @@ namespace ChocolaterieDeWillyTests
                                  dateDuJour.AddDays(10));
             atelier.PlanifierLot("Citrouille moulée", 10, new Masse(200, UniteMasse.Grammes),
                                  dateDuJour.AddDays(20));
-
-            Assert.Fail();
+            atelier.AnnulerLot(1);
+            Assert.Equal(1, atelier.Lots.Count);
         }
 
         [Fact]

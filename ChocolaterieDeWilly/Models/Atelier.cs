@@ -96,7 +96,7 @@ namespace ChocolaterieDeWilly.Models
                         int numero_lot = _prochainNumeroLot;
                         _prochainNumeroLot++;
                         LotProduction nouveauLot = new LotProduction(numero_lot, nom, quantite, poidsUnitaire, dateLimite);
-                        
+                        nouveauLot.Statut = StatutLot.Planifie; 
                     } 
                 }   else
                     {
